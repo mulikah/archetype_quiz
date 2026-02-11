@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Your Divine Tone | The 12 Tones Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #f4f4f4;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            margin-bottom: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.2em;
+            color: #d4af37;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #b8b8b8;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-style: italic;
+        }
+
+        .intro-box {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 4px solid #d4af37;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .intro-box h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .question {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .question-desc {
+            color: #b8b8b8;
+            margin-bottom: 35px;
+            font-size: 1.1em;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            background: rgba(212, 175, 55, 0.12);
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateX(8px);
+        }
+
+        .option.selected {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .option-label {
+            font-size: 1.2em;
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .option-text {
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: 2px solid #d4af37;
+            background: transparent;
+            color: #d4af37;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #d4af37;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #1a1a2e;
+            border: none;
+            font-weight: 600;
+        }
+
+        .email-form {
+            display: none;
+        }
+
+        .email-form.active {
+            display: block;
+            animation: fadeIn 0.6s;
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        input::placeholder {
+            color: #888;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            color: #d4af37;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-container.active {
+            display: block;
+            animation: fadeIn 0.6s;
+        }
+
+        .tone-reveal {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tone-symbol {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .tone-title {
+            font-size: 2.5em;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .tone-subtitle {
+            font-size: 1.3em;
+            color: #b8b8b8;
+            font-style: italic;
+        }
+
+        .tone-mandate {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 4px solid #d4af37;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .tone-mandate h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-top: 3px solid #d4af37;
+        }
+
+        .content-card h4 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-card li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #e0e0e0;
+        }
+
+        .content-card li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #1a1a2e;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-box h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .cta-box p {
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+
+        .cta-box ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            list-style: none;
+        }
+
+        .cta-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .cta-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .quiz-container {
+                padding: 30px 20px;
+            }
+
+            .question h2 {
+                font-size: 1.5em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">✦ SOULFUL WISDOM ✦</div>
+            <h1>Discover Your Divine Tone</h1>
+            <p class="subtitle">The 12 Tones Assessment: Reveal Your Sacred Mandate in the Cosmic Symphony</p>
+        </div>
+
+        <div class="intro-box">
+            <h3>This Is Not a Personality Test</h3>
+            <p>The 12 Tones reveal your <strong>Divine Mandate</strong>—the specific frequency you were designed to hold in the cosmic symphony. You didn't choose your Tone. You ARE your Tone. This 8-minute assessment will reveal which of the 12 sacred frequencies you embody, including your spiritual gifts, shadow patterns, and professional calling.</p>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-section">
+                <div class="progress-text">QUESTION <span id="currentQ">1</span> OF 10</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="question active" data-question="1">
+                <h2>When you enter a new situation, your first instinct is to:</h2>
+                <p class="question-desc">Choose the response that feels most natural, not what you think is "right"</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,creation,voice">
+                        <div class="option-label">INITIATE</div>
+                        <div class="option-text">Start something, shake things up, disrupt the status quo</div>
+                    </div>
+                    <div class="option" data-tones="structure,balance,guardianship">
+                        <div class="option-label">STABILIZE</div>
+                        <div class="option-text">Assess the foundation, create safety, establish order</div>
+                    </div>
+                    <div class="option" data-tones="flow,time,wisdom">
+                        <div class="option-label">OBSERVE</div>
+                        <div class="option-text">Watch the patterns, sense the timing, understand the flow</div>
+                    </div>
+                    <div class="option" data-tones="truth,memory,return">
+                        <div class="option-label">REVEAL</div>
+                        <div class="option-text">Name what's really happening, uncover what's hidden</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question" data-question="2">
+                <h2>Your greatest professional frustration is when:</h2>
+                <p class="question-desc">Think about what drains your energy most at work</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,flow">
+                        <div class="option-label">STAGNATION</div>
+                        <div class="option-text">Nothing is moving, changing, or evolving—it feels like death</div>
+                    </div>
+                    <div class="option" data-tones="structure,balance">
+                        <div class="option-label">CHAOS</div>
+                        <div class="option-text">Everything is unstable, disorganized, lacking foundation</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">DISHONESTY</div>
+                        <div class="option-text">People aren't saying what's true, hiding behind pretense</div>
+                    </div>
+                    <div class="option" data-tones="memory,wisdom,return">
+                        <div class="option-label">AMNESIA</div>
+                        <div class="option-text">People forget lessons, repeat mistakes, ignore history</div>
+                    </div>
+                    <div class="option" data-tones="creation,guardianship,time">
+                        <div class="option-label">MISALIGNMENT</div>
+                        <div class="option-text">Wrong timing, wrong people, wrong approach—everything feels off</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question" data-question="3">
+                <h2>People seek you out when they need:</h2>
+                <p class="question-desc">What do others rely on you for?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,creation">
+                        <div class="option-label">IGNITION</div>
+                        <div class="option-text">Someone to start what they can't, to catalyze movement</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">CLARITY</div>
+                        <div class="option-text">The unvarnished truth about their situation</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">PROTECTION</div>
+                        <div class="option-text">Safety, boundaries, reliable support</div>
+                    </div>
+                    <div class="option" data-tones="flow,time">
+                        <div class="option-label">NAVIGATION</div>
+                        <div class="option-text">Help moving through transition or knowing when to act</div>
+                    </div>
+                    <div class="option" data-tones="wisdom,memory,return">
+                        <div class="option-label">INTEGRATION</div>
+                        <div class="option-text">Help making sense of experience, finding meaning</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">HARMONY</div>
+                        <div class="option-text">Mediation, balance between conflicting forces</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question" data-question="4">
+                <h2>Your shadow side emerges as:</h2>
+                <p class="question-desc">Be honest—what's your most common negative pattern?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin">
+                        <div class="option-label">ABANDONMENT</div>
+                        <div class="option-text">Starting things but never finishing them</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">HARSHNESS</div>
+                        <div class="option-text">Using honesty as a weapon, being brutally direct</div>
+                    </div>
+                    <div class="option" data-tones="creation">
+                        <div class="option-label">VALIDATION SEEKING</div>
+                        <div class="option-text">Creating for approval rather than authentic expression</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">RIGIDITY</div>
+                        <div class="option-text">Becoming controlling, resistant to necessary change</div>
+                    </div>
+                    <div class="option" data-tones="flow">
+                        <div class="option-label">CHAOS ADDICTION</div>
+                        <div class="option-text">Unconsciously creating problems to solve</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">PEOPLE PLEASING</div>
+                        <div class="option-text">Sacrificing your truth to keep peace</div>
+                    </div>
+                    <div class="option" data-tones="time,wisdom">
+                        <div class="option-label">PARALYSIS</div>
+                        <div class="option-text">Overthinking until momentum dies</div>
+                    </div>
+                    <div class="option" data-tones="memory,return">
+                        <div class="option-label">NOSTALGIA</div>
+                        <div class="option-text">Living in the past, resisting the present</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question" data-question="5">
+                <h2>Your spiritual gift manifests as:</h2>
+                <p class="question-desc">Which supernatural ability resonates most?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin">
+                        <div class="option-label">PRIMAL COURAGE</div>
+                        <div class="option-text">Moving before knowing the outcome, catalytic presence</div>
+                    </div>
+                    <div class="option" data-tones="truth">
+                        <div class="option-label">REALITY SENSING</div>
+                        <div class="option-text">Detecting lies and distortions instantly</div>
+                    </div>
+                    <div class="option" data-tones="memory">
+                        <div class="option-label">AKASHIC ACCESS</div>
+                        <div class="option-text">Retrieving information across time and space</div>
+                    </div>
+                    <div class="option" data-tones="structure">
+                        <div class="option-label">SYSTEMS ARCHITECTURE</div>
+                        <div class="option-text">Seeing how pieces fit into stable wholes</div>
+                    </div>
+                    <div class="option" data-tones="flow">
+                        <div class="option-label">ALCHEMICAL TRANSFORMATION</div>
+                        <div class="option-text">Turning chaos into clarity, pain into wisdom</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">POLARITY INTEGRATION</div>
+                        <div class="option-text">Holding opposing truths simultaneously</div>
+                    </div>
+                    <div class="option" data-tones="creation">
+                        <div class="option-label">DIVINE CHANNEL</div>
+                        <div class="option-text">Receiving creative downloads directly from Source</div>
+                    </div>
+                    <div class="option" data-tones="time">
+                        <div class="option-label">TEMPORAL INTUITION</div>
+                        <div class="option-text">Sensing when the moment is perfectly ripe</div>
+                    </div>
+                    <div class="option" data-tones="voice">
+                        <div class="option-label">TRUTH TRANSMISSION</div>
+                        <div class="option-text">Articulating complex concepts with magnetic clarity</div>
+                    </div>
+                    <div class="option" data-tones="guardianship">
+                        <div class="option-label">THREAT DETECTION</div>
+                        <div class="option-text">Sensing danger before it manifests</div>
+                    </div>
+                    <div class="option" data-tones="wisdom">
+                        <div class="option-label">PATTERN SYNTHESIS</div>
+                        <div class="option-text">Seeing how disparate experiences connect into meaning</div>
+                    </div>
+                    <div class="option" data-tones="return">
+                        <div class="option-label">NAVIGATION MASTERY</div>
+                        <div class="option-text">Always knowing the way home, literally and metaphorically</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question" data-question="6">
+                <h2>In your professional life, you thrive when:</h2>
+                <p class="question-desc">What environment brings out your best?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,creation,voice">
+                        <div class="option-label">LEADING CHANGE</div>
+                        <div class="option-text">Starting new ventures, launching movements, pioneering</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">BUILDING SYSTEMS</div>
+                        <div class="option-text">Creating infrastructure that lasts, protecting what matters</div>
+                    </div>
+                    <div class="option" data-tones="flow,time">
+                        <div class="option-label">NAVIGATING TRANSITION</div>
+                        <div class="option-text">Guiding through change, sensing perfect timing</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">REVEALING REALITY</div>
+                        <div class="option-text">Investigating, uncovering, broadcasting truth</div>
+                    </div>
+                    <div class="option" data-tones="wisdom,memory">
+                        <div class="option-label">PRESERVING WISDOM</div>
+                        <div class="option-text">Teaching, mentoring, archiving what matters</div>
+                    </div>
+                    <div class="option" data-tones="balance,return">
+                        <div class="option-label">INTEGRATING OPPOSITES</div>
+                        <div class="option-text">Mediating conflict, bringing journeys to completion</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question" data-question="7">
+                <h2>Your soul wound stems from:</h2>
+                <p class="question-desc">What childhood experience shaped your deepest pain?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,creation,voice">
+                        <div class="option-label">BEING SILENCED</div>
+                        <div class="option-text">Told you were "too much," "too loud," needed to calm down</div>
+                    </div>
+                    <div class="option" data-tones="truth">
+                        <div class="option-label">BEING PUNISHED FOR HONESTY</div>
+                        <div class="option-text">Rejected when you told the truth others didn't want to hear</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">BEING TAKEN FOR GRANTED</div>
+                        <div class="option-text">Your stability was expected, your needs ignored</div>
+                    </div>
+                    <div class="option" data-tones="flow,time">
+                        <div class="option-label">BEING RUSHED</div>
+                        <div class="option-text">Forced to move at someone else's pace, your rhythm dismissed</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">BEING TORN APART</div>
+                        <div class="option-text">Caught between warring factions, forced to choose sides</div>
+                    </div>
+                    <div class="option" data-tones="memory,wisdom,return">
+                        <div class="option-label">BEING DISPLACED</div>
+                        <div class="option-text">Losing your home, roots, or sense of belonging</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question" data-question="8">
+                <h2>When making important decisions, you rely most on:</h2>
+                <p class="question-desc">Your primary decision-making mode</p>
+                <div class="options">
+                    <div class="option" data-tones="origin">
+                        <div class="option-label">INSTINCT</div>
+                        <div class="option-text">Gut feeling, immediate knowing, primal urge</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">CLARITY</div>
+                        <div class="option-text">Objective assessment, facts, what IS</div>
+                    </div>
+                    <div class="option" data-tones="memory,wisdom">
+                        <div class="option-label">EXPERIENCE</div>
+                        <div class="option-text">Past lessons, proven methods, accumulated wisdom</div>
+                    </div>
+                    <div class="option" data-tones="time">
+                        <div class="option-label">TIMING</div>
+                        <div class="option-text">Sensing when the moment is right, waiting for alignment</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">SYSTEMS</div>
+                        <div class="option-text">Established process, proven framework, reliable structure</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">INTEGRATION</div>
+                        <div class="option-text">Weighing all perspectives, finding the middle way</div>
+                    </div>
+                    <div class="option" data-tones="creation,flow">
+                        <div class="option-label">INTUITION</div>
+                        <div class="option-text">Creative vision, sensing what wants to emerge</div>
+                    </div>
+                    <div class="option" data-tones="return">
+                        <div class="option-label">ALIGNMENT</div>
+                        <div class="option-text">What brings things back to essence, to source</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question" data-question="9">
+                <h2>Your greatest fear in professional settings is:</h2>
+                <p class="question-desc">What keeps you up at night about work?</p>
+                <div class="options">
+                    <div class="option" data-tones="origin,flow,creation">
+                        <div class="option-label">STAGNATION</div>
+                        <div class="option-text">Being stuck, unable to create or move</div>
+                    </div>
+                    <div class="option" data-tones="structure,guardianship">
+                        <div class="option-label">COLLAPSE</div>
+                        <div class="option-text">Systems failing, people getting hurt on your watch</div>
+                    </div>
+                    <div class="option" data-tones="truth,voice">
+                        <div class="option-label">BEING SILENCED</div>
+                        <div class="option-text">Not being heard, truth being suppressed</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">CONFLICT</div>
+                        <div class="option-text">Irreconcilable division, permanent rupture</div>
+                    </div>
+                    <div class="option" data-tones="memory,wisdom,return">
+                        <div class="option-label">AMNESIA</div>
+                        <div class="option-text">Important lessons being lost, history repeating</div>
+                    </div>
+                    <div class="option" data-tones="time">
+                        <div class="option-label">MISALIGNMENT</div>
+                        <div class="option-text">Acting at the wrong time, missing the window</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question" data-question="10">
+                <h2>Your highest calling is to:</h2>
+                <p class="question-desc">Complete this sentence with what resonates deepest</p>
+                <div class="options">
+                    <div class="option" data-tones="origin">
+                        <div class="option-label">BEGIN</div>
+                        <div class="option-text">Strike the first note, shatter stagnation, catalyze new cycles</div>
+                    </div>
+                    <div class="option" data-tones="truth">
+                        <div class="option-label">REVEAL</div>
+                        <div class="option-text">Strip away illusions, witness without distortion</div>
+                    </div>
+                    <div class="option" data-tones="memory">
+                        <div class="option-label">PRESERVE</div>
+                        <div class="option-text">Hold the source code, maintain the blueprint</div>
+                    </div>
+                    <div class="option" data-tones="structure">
+                        <div class="option-label">BUILD</div>
+                        <div class="option-text">Provide stable architecture, hold the geometry</div>
+                    </div>
+                    <div class="option" data-tones="flow">
+                        <div class="option-label">TRANSMUTE</div>
+                        <div class="option-text">Navigate currents, facilitate graceful transformation</div>
+                    </div>
+                    <div class="option" data-tones="balance">
+                        <div class="option-label">HARMONIZE</div>
+                        <div class="option-text">Hold the center between opposing forces</div>
+                    </div>
+                    <div class="option" data-tones="creation">
+                        <div class="option-label">MANIFEST</div>
+                        <div class="option-text">Radiate potential, make the invisible visible</div>
+                    </div>
+                    <div class="option" data-tones="time">
+                        <div class="option-label">ALIGN</div>
+                        <div class="option-text">Guard the rhythm, ensure divine timing</div>
+                    </div>
+                    <div class="option" data-tones="voice">
+                        <div class="option-label">BROADCAST</div>
+                        <div class="option-text">Amplify truth, translate wisdom for the masses</div>
+                    </div>
+                    <div class="option" data-tones="guardianship">
+                        <div class="option-label">PROTECT</div>
+                        <div class="option-text">Shield the sacred, define boundaries of integrity</div>
+                    </div>
+                    <div class="option" data-tones="wisdom">
+                        <div class="option-label">INTEGRATE</div>
+                        <div class="option-text">Harvest experience, synthesize lessons into understanding</div>
+                    </div>
+                    <div class="option" data-tones="return">
+                        <div class="option-label">COMPLETE</div>
+                        <div class="option-text">Lead the spiral home, close the sacred circle</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Form -->
+            <div class="email-form">
+                <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Reveal Your Divine Tone</h2>
+                <p style="margin-bottom: 30px; text-align: center; color: #b8b8b8;">Enter your details to receive your complete Tone profile, including your divine mandate, spiritual gifts, shadow patterns, and sacred calling.</p>
+                
+                <input type="text" id="firstName" placeholder="First Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="showResults()">Reveal My Divine Tone ✦</button>
+                
+                <div class="trust-badges">
+                    <span class="badge">🔒 Your Privacy is Sacred</span>
+                    <span class="badge">📧 No Spam, Ever</span>
+                    <span class="badge">✨ 4,200+ Tones Revealed</span>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-container">
+                <div class="tone-reveal">
+                    <div class="tone-symbol" id="toneSymbol"></div>
+                    <div class="tone-title" id="toneTitle"></div>
+                    <div class="tone-subtitle" id="toneSubtitle"></div>
+                </div>
+
+                <div class="tone-mandate">
+                    <h3>Your Divine Mandate</h3>
+                    <p id="toneMandate"></p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h4>Your Spiritual Gifts</h4>
+                        <ul id="toneGifts"></ul>
+                    </div>
+                    <div class="content-card">
+                        <h4>Your Shadow Patterns</h4>
+                        <ul id="toneShadows"></ul>
+                    </div>
+                    <div class="content-card">
+                        <h4>Your Professional Calling</h4>
+                        <ul id="toneCalling"></ul>
+                    </div>
+                </div>
+
+                <div class="cta-box">
+                    <h3>Ready to Master Your Divine Tone?</h3>
+                    <p>Your complete 15-page personalized Tone profile has been sent to your email, including:</p>
+                    <ul>
+                        <li>Your complete Divine Mandate & Sacred Function</li>
+                        <li>All 4 spiritual gifts with activation practices</li>
+                        <li>Shadow patterns and integration strategies</li>
+                        <li>Career alignment paths for your Tone</li>
+                        <li>Financial signature and wealth blueprint</li>
+                        <li>Relationship compatibility matrix</li>
+                        <li>Soul wound healing path</li>
+                        <li>Daily integration practices</li>
+                        <li>Your Tone's connection to the 5 Trauma Layers</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="window.location.href='#book-reading'" style="font-size: 1.1em; padding: 18px 45px;">
+                        Book Your Sovereign Reading (SGD $245) →
+                    </button>
+                    <p style="margin-top: 20px; font-size: 0.95em;">3-hour deep dive into YOUR specific Tone expression</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>← Previous</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next →</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; color: #666; padding-bottom: 40px;">
+            <p>© 2026 Soulful Wisdom • The 12 Tones Divine Mandate System</p>
+            <p style="margin-top: 10px;">Created by Mulikah, The Bio-Energetic Architect</p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 10;
+        const toneScores = {
+            origin: 0,
+            truth: 0,
+            memory: 0,
+            structure: 0,
+            flow: 0,
+            balance: 0,
+            creation: 0,
+            time: 0,
+            voice: 0,
+            guardianship: 0,
+            wisdom: 0,
+            return: 0
+        };
+
+        // Tone data
+        const TONES = {
+            origin: {
+                title: "ORIGIN • The Initiator",
+                subtitle: "The Divine Mandate: To Strike the First Note",
+                symbol: "◆",
+                mandate: "You are the Cosmic Starter. Your role is not to perfect—it is to BEGIN. You carry the frequency of pure potential actualized into motion. Without you, nothing moves. You are the breath that disrupts the stillness and commands: 'Let there be...'",
+                gifts: [
+                    "Primal Courage - You move before knowing the outcome",
+                    "Catalytic Presence - Your arrival changes any space",
+                    "Vision Ignition - You see possibilities before form",
+                    "Pioneering Instinct - You create paths where none existed"
+                ],
+                shadows: [
+                    "Starting but never completing (addiction to novelty)",
+                    "Chaos creation (unconsciously creating problems)",
+                    "Impatient with slower movers"
+                ],
+                calling: [
+                    "Entrepreneurship & Startup Founding",
+                    "Innovation Consulting",
+                    "Crisis Intervention",
+                    "Movement Building & Activism"
+                ]
+            },
+            truth: {
+                title: "TRUTH • The Arbiter",
+                subtitle: "The Divine Mandate: To Witness Without Distortion",
+                symbol: "⚖",
+                mandate: "You are the Cosmic Mirror. You reflect what IS, not what people wish was. Your role is not to comfort—it is to CLARIFY. You carry the frequency of uncompromising reality. Without you, delusion spreads.",
+                gifts: [
+                    "Reality Sensing - Detect lies instantly",
+                    "Objective Witnessing - See without emotional projection",
+                    "Diagnostic Precision - Identify root causes",
+                    "Truth Embodiment - Your presence makes deception impossible"
+                ],
+                shadows: [
+                    "Weaponizing truth to wound",
+                    "Isolated observer (seeing only flaws)",
+                    "Righteous judgment addiction"
+                ],
+                calling: [
+                    "Investigative Journalism",
+                    "Forensic Accounting",
+                    "Organizational Consulting",
+                    "Executive Coaching"
+                ]
+            },
+            memory: {
+                title: "MEMORY • The Archivist",
+                subtitle: "The Divine Mandate: To Preserve the Blueprint",
+                symbol: "∞",
+                mandate: "You are the Cosmic Librarian. You remember what others forget. Your role is not to create new—it is to PRESERVE old. You carry the frequency of eternal continuity. Without you, wisdom is lost.",
+                gifts: [
+                    "Akashic Access - Retrieve across time/space",
+                    "Pattern Recognition - See historical cycles",
+                    "Ancestral Connection - Carry lineage wisdom",
+                    "Living Archive - Hold essential stories"
+                ],
+                shadows: [
+                    "Past-dwelling (using history as weapon)",
+                    "Information hoarding (gatekeeping wisdom)",
+                    "Nostalgia paralysis"
+                ],
+                calling: [
+                    "Historical Research",
+                    "Cultural Preservation",
+                    "Genealogy & Ancestral Work",
+                    "Knowledge Management"
+                ]
+            },
+            structure: {
+                title: "STRUCTURE • The Foundation Stone",
+                subtitle: "The Divine Mandate: To Hold the Geometry",
+                symbol: "▭",
+                mandate: "You are the Cosmic Skeleton. You provide the bones upon which the body grows. Your role is not to dazzle—it is to STABILIZE. You carry the frequency of unshakeable foundation. Without you, everything collapses.",
+                gifts: [
+                    "Systems Architecture - See stable wholes",
+                    "Consistent Presence - Show up always",
+                    "Load-Bearing Capacity - Hold weight others cannot",
+                    "Sacred Geometry - Understand sustainability"
+                ],
+                shadows: [
+                    "Inflexible fortress (rigidity as strength)",
+                    "Invisible martyr (unrecognized contribution)",
+                    "Control guardian (micromanagement)"
+                ],
+                calling: [
+                    "Operations Management",
+                    "Systems Design",
+                    "Project Management",
+                    "Architecture & Planning"
+                ]
+            },
+            flow: {
+                title: "FLOW • The Transmuter",
+                subtitle: "The Divine Mandate: To Navigate the Currents",
+                symbol: "〰",
+                mandate: "You are the Cosmic River. You move what is stuck. Your role is not to hold—it is to RELEASE. You carry the frequency of perpetual transformation. Without you, death becomes permanent.",
+                gifts: [
+                    "Alchemical Transformation - Pain into wisdom",
+                    "Death Doula Frequency - Help things die gracefully",
+                    "Adaptive Intelligence - Shapeshift to the moment",
+                    "Release Mastery - Know when to let go"
+                ],
+                shadows: [
+                    "Chaos addiction (changing for change's sake)",
+                    "Attachment avoidance (never committing)",
+                    "Spiritual bypassing ('just let it go')"
+                ],
+                calling: [
+                    "Change Management",
+                    "Crisis Consulting",
+                    "Grief Counseling",
+                    "Transition Coaching"
+                ]
+            },
+            balance: {
+                title: "BALANCE • The Harmonizer",
+                subtitle: "The Divine Mandate: To Hold the Center",
+                symbol: "⚖",
+                mandate: "You are the Cosmic Equilibrium. You prevent extremes from destroying the whole. Your role is not to choose sides—it is to INTEGRATE polarities. You carry the frequency of dynamic balance.",
+                gifts: [
+                    "Polarity Integration - Hold opposites simultaneously",
+                    "Diplomatic Sensing - Feel what restores equilibrium",
+                    "Conflict Alchemy - Transform opposition to collaboration",
+                    "Third Way Vision - See beyond binary"
+                ],
+                shadows: [
+                    "People-pleasing (false peace)",
+                    "Fence-sitting (paralyzed by all sides)",
+                    "Exhausted diplomat (absorbing all needs)"
+                ],
+                calling: [
+                    "Mediation & Conflict Resolution",
+                    "Diplomatic Services",
+                    "HR & Employee Relations",
+                    "Coalition Building"
+                ]
+            },
+            creation: {
+                title: "CREATION • The Luminary",
+                subtitle: "The Divine Mandate: To Radiate Potential",
+                symbol: "✦",
+                mandate: "You are the Cosmic Artist. You birth beauty from void. Your role is not to analyze—it is to MANIFEST. You carry the frequency of pure creative power. Without you, potential remains dormant.",
+                gifts: [
+                    "Divine Channel - Receive direct Source downloads",
+                    "Manifestation Mastery - Vision into form rapidly",
+                    "Magnetic Presence - People drawn to radiance",
+                    "Beauty Architecture - Make anything beautiful"
+                ],
+                shadows: [
+                    "Approval seeking (creating to prove worth)",
+                    "Tortured artist (romanticizing suffering)",
+                    "Scattered creator (starting, not finishing)"
+                ],
+                calling: [
+                    "Fine Arts & Creative Direction",
+                    "Brand Design",
+                    "Product Design",
+                    "Content Creation"
+                ]
+            },
+            time: {
+                title: "TIME • The Chronos-Keeper",
+                subtitle: "The Divine Mandate: To Guard the Rhythm",
+                symbol: "⌛",
+                mandate: "You are the Cosmic Clock. You know WHEN before others know WHAT. Your role is not to rush—it is to ALIGN. You carry the frequency of divine timing. Without you, effort is wasted through premature action.",
+                gifts: [
+                    "Temporal Intuition - Sense ripe moments",
+                    "Rhythm Reading - Feel natural pulse",
+                    "Patience Mastery - Wait without anxiety",
+                    "Kairos Recognition - Right time vs. clock time"
+                ],
+                shadows: [
+                    "Eternal waiting (timing as avoidance)",
+                    "Control illusion (rigid timelines)",
+                    "Missed moments (overthinking)"
+                ],
+                calling: [
+                    "Strategic Planning",
+                    "Investment Timing",
+                    "Launch Strategy",
+                    "Astrological Consulting"
+                ]
+            },
+            voice: {
+                title: "VOICE • The Clarion",
+                subtitle: "The Divine Mandate: To Broadcast the Signal",
+                symbol: "🔊",
+                mandate: "You are the Cosmic Megaphone. You amplify what must be heard. Your role is not to whisper—it is to PROCLAIM. You carry the frequency of clear transmission. Without you, truth stays hidden.",
+                gifts: [
+                    "Truth Transmission - Articulate complexity clearly",
+                    "Magnetic Speaking - People stop and listen",
+                    "Frequency Matching - Say things so they land",
+                    "Mass Movement - Words create collective action"
+                ],
+                shadows: [
+                    "Attention addiction (performance over authenticity)",
+                    "Megaphone for hire (selling voice without discernment)",
+                    "Exhausted broadcaster (feeling responsible for all causes)"
+                ],
+                calling: [
+                    "Public Speaking",
+                    "Writing & Journalism",
+                    "Podcasting",
+                    "Activism & Movement Building"
+                ]
+            },
+            guardianship: {
+                title: "GUARDIANSHIP • The Sentinel",
+                subtitle: "The Divine Mandate: To Protect the Sacred",
+                symbol: "🛡️",
+                mandate: "You are the Cosmic Gatekeeper. You determine what enters and stays out. Your role is not to welcome all—it is to DISCERN. You carry the frequency of fierce protection. Without you, sacred spaces are violated.",
+                gifts: [
+                    "Threat Detection - Sense danger before manifest",
+                    "Boundary Mastery - Know where lines belong",
+                    "Sacred Space Holding - Create safe containers",
+                    "Fierce Love - Protect without apology"
+                ],
+                shadows: [
+                    "Over-protection (smothering love)",
+                    "Paranoid guardian (seeing threats everywhere)",
+                    "Boundary tyrant (punishment not protection)"
+                ],
+                calling: [
+                    "Security & Risk Management",
+                    "Ethics & Compliance",
+                    "Child/Elder Protection",
+                    "Legal Defense"
+                ]
+            },
+            wisdom: {
+                title: "WISDOM • The Sage",
+                subtitle: "The Divine Mandate: To Harvest Experience",
+                symbol: "🦉",
+                mandate: "You are the Cosmic Elder. You distill chaos into clarity. Your role is not to gather knowledge—it is to TRANSMUTE it into wisdom. You carry the frequency of integrated understanding. Without you, experience is wasted.",
+                gifts: [
+                    "Pattern Synthesis - Connect disparate experiences",
+                    "Experiential Alchemy - Pain into medicine",
+                    "Long View Vision - See consequences ahead",
+                    "Teaching Transmission - Translate wisdom for use"
+                ],
+                shadows: [
+                    "Eternal student (learning without applying)",
+                    "Condescending sage (knowledge as weapon)",
+                    "Paralyzed philosopher (overthinking)"
+                ],
+                calling: [
+                    "Executive Coaching",
+                    "Strategic Advisory",
+                    "Academic Research",
+                    "Thought Leadership"
+                ]
+            },
+            return: {
+                title: "RETURN • The Wayfinder",
+                subtitle: "The Divine Mandate: To Lead the Spiral Home",
+                symbol: "🌀",
+                mandate: "You are the Cosmic Navigator. You remember the way back when all are lost. Your role is not to venture further—it is to COMPLETE THE CIRCLE. You carry the frequency of sacred return. Without you, the journey has no ending.",
+                gifts: [
+                    "Navigation Mastery - Always know way home",
+                    "Completion Wisdom - Know when journeys finish",
+                    "Integration Genius - Weave experiences into wholeness",
+                    "Homecoming Frequency - Help others find themselves"
+                ],
+                shadows: [
+                    "Nostalgic dreamer (romanticizing past)",
+                    "Completion addiction (forcing premature endings)",
+                    "Exhausted guide (responsible for all)"
+                ],
+                calling: [
+                    "Post-Merger Integration",
+                    "Closure Coaching",
+                    "Hospice Work",
+                    "Legacy Building"
+                ]
+            }
+        };
+
+        // Handle option selection
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionDiv = this.closest('.question');
+                
+                // Remove selected from siblings
+                questionDiv.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected
+                this.classList.add('selected');
+                
+                // Enable next button
+                document.getElementById('nextBtn').disabled = false;
+            });
+        });
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentQ').textContent = currentQuestion;
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.remove('active');
+                currentQuestion--;
+                document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.add('active');
+                updateProgress();
+                updateButtons();
+            }
+        }
+
+        function nextQuestion() {
+            const currentQuestionDiv = document.querySelector(`.question[data-question="${currentQuestion}"]`);
+            const selectedOption = currentQuestionDiv.querySelector('.option.selected');
+            
+            if (!selectedOption) {
+                alert('Please select an answer');
+                return;
+            }
+            
+            // Record tones from this answer
+            const tones = selectedOption.dataset.tones.split(',');
+            tones.forEach(tone => {
+                toneScores[tone.trim()]++;
+            });
+            
+            if (currentQuestion < totalQuestions) {
+                currentQuestionDiv.classList.remove('active');
+                currentQuestion++;
+                document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.add('active');
+                updateProgress();
+                updateButtons();
+                
+                // Disable next until selection
+                document.getElementById('nextBtn').disabled = true;
+            } else {
+                // Show email form
+                currentQuestionDiv.classList.remove('active');
+                document.querySelector('.email-form').classList.add('active');
+                document.querySelector('.nav-buttons').style.display = 'none';
+                updateProgress();
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 1;
+            
+            const currentQuestionDiv = document.querySelector(`.question[data-question="${currentQuestion}"]`);
+            const hasSelection = currentQuestionDiv.querySelector('.option.selected');
+            document.getElementById('nextBtn').disabled = !hasSelection;
+        }
+
+        function showResults() {
+            const email = document.getElementById('email').value;
+            const firstName = document.getElementById('firstName').value;
+            
+            if (!email || !firstName) {
+                alert('Please enter your name and email');
+                return;
+            }
+            
+            // Calculate dominant tone
+            const dominantTone = Object.keys(toneScores).reduce((a, b) => 
+                toneScores[a] > toneScores[b] ? a : b
+            );
+            
+            const tone = TONES[dominantTone];
+            
+            // Hide email form
+            document.querySelector('.email-form').classList.remove('active');
+            
+            // Show results
+            document.querySelector('.results-container').classList.add('active');
+            
+            // Populate results
+            document.getElementById('toneSymbol').textContent = tone.symbol;
+            document.getElementById('toneTitle').textContent = tone.title;
+            document.getElementById('toneSubtitle').textContent = tone.subtitle;
+            document.getElementById('toneMandate').textContent = tone.mandate;
+            
+            // Gifts
+            const giftsHTML = tone.gifts.map(gift => `<li>${gift}</li>`).join('');
+            document.getElementById('toneGifts').innerHTML = giftsHTML;
+            
+            // Shadows
+            const shadowsHTML = tone.shadows.map(shadow => `<li>${shadow}</li>`).join('');
+            document.getElementById('toneShadows').innerHTML = shadowsHTML;
+            
+            // Calling
+            const callingHTML = tone.calling.map(call => `<li>${call}</li>`).join('');
+            document.getElementById('toneCalling').innerHTML = callingHTML;
+            
+            // Log for backend integration
+            console.log('Send to:', email, 'Name:', firstName, 'Tone:', dominantTone, 'Scores:', toneScores);
+        }
+
+        // Initialize
+        updateProgress();
+        updateButtons();
+    </script>
+</body>
+</html>
